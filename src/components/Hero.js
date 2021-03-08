@@ -3,7 +3,6 @@ import Image from "gatsby-image"
 import { Link } from "gatsby"
 // import Gif from '../images/matrix.jfif'
 import { graphql, useStaticQuery } from "gatsby"
-
 import styled from 'styled-components';
 
 const StyledHero = styled.div`
@@ -38,12 +37,12 @@ const Hero = () => {
       childImageSharp: { fluid },
     },
   } = useStaticQuery(query)
-
+  
+  // {/* {Gif ? <img src={Gif} alt="hero image" className="hero-img" /> :
+  // } */}
   return (
     <StyledHero >
       <header className="hero">
-        {/* {Gif ? <img src={Gif} alt="hero image" className="hero-img" /> :
-        } */}
         <Image fluid={fluid} className="hero-img" />
         <div className="section-center hero-center">
           <h1>WELCOME TO Tibeb Technologies</h1>

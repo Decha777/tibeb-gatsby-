@@ -5,7 +5,7 @@ const ContactForm = () => {
         <section className="contact-page">
             <article className="contact-form">
                <Title title='contact us' />
-                <form action="https://formspree.io/YOUR_ID" method="POST">
+                <form action="https://formspree.io/f/xvoveodp" method="POST">
                     <div className="form-group">
                         <input
                             type="text"
