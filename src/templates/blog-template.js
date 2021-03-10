@@ -19,7 +19,7 @@ const ComponentName = ({ data }) => {
             />
           </article>
           <Link to="/blog" className="btn center-btn">
-            blog
+           back to blog
           </Link>
         </div>
       </section>

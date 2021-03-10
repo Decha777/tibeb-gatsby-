@@ -8,7 +8,7 @@ const StyledCompany = styled.div`
           color:${({ theme }) => theme.colors.primary[500]};  
           margin-top: -.1rem;
           padding: 2rem 0;
-          font-family: Aldrich;
+            font-family: Aldrich;
         
          h1,h2{
               margin:1rem 0;
@@ -33,7 +33,7 @@ const StyledCompany = styled.div`
 `;
 
 
-const Company = ({ data ,title }) => {
+const Company = ({ data, title }) => {
     return (
         <div>
             <StyledCompany>

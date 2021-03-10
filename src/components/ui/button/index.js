@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components/macro';
 
 const CustomButton = styled.button`
-  width:${prop=>prop.btnWidth ? prop.btnWidth:''};
+  width:${prop => prop.btnWidth ? prop.btnWidth : ''};
   text-transform: uppercase;
   background: transparent;
   color: var(--clr-tertiary-1);
@@ -22,8 +22,11 @@ const CustomButton = styled.button`
     color: var(--clr-white);
     background: var(--clr-tertiary-1);
   }
+  :disabled{
+    display:none;
+  }
 `;
 
 export default function Button({ children, ...restProps }) {
-    return <CustomButton {...restProps}>{children}</CustomButton>
+  return <CustomButton {...restProps}>{children}</CustomButton>
 }

@@ -11,8 +11,9 @@ import ContactForm from "../components/ContactForm"
 import styled from 'styled-components';
 import img from '../images/Abract01.png'
 
+
 const StyledBg = styled.div`
- background:url(${img}) no-repeat #ececec ;
+ background:url(${img}) no-repeat ${({theme}) => theme.colors.grey[100]};
  background-size:contain;
  background-position:right;
  width: 100vw;
@@ -26,6 +27,8 @@ export default ({ data }) => {
     allStrapiBlogs: { nodes: blogs },
     allStrapiAbout: { nodes: info }
   } = data
+    
+
 
   return (
     <Layout>
@@ -47,7 +50,7 @@ export const query = graphql`
       slug
       content
       desc
-      date(formatString: "MMMM Do, YYYY")
+      date(formatString: "MMMM Do")
       id
       title
       tag{

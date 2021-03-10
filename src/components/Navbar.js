@@ -1,4 +1,5 @@
 import React from "react"
+import { Link } from 'gatsby'
 import logo from "../images/logo.png"
 import { FaAlignRight } from "react-icons/fa"
 import PageLinks from "../constants/links"
@@ -37,7 +38,9 @@ const Navbar = ({ toggleSidebar }) => {
     <NavBar>
       <div className="nav-center">
         <div className="nav-header">
-          <img src={logo} alt="logo" />
+          <Link to='/'>
+            <img src={logo} alt="logo" />
+          </Link>
           <StyledText>tibeb technologies</StyledText>
           <button type="button" className="toggle-btn" onClick={toggleSidebar}>
             <FaAlignRight></FaAlignRight>

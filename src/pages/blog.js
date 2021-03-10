@@ -1,21 +1,24 @@
 import React, {
   useState
 } from "react"
-import Layout from "../components/Layout"
+
+import Layout from '../components/Layout'
 import Title from "../components/Title"
+import SEO from "../components/SEO"
+import { Button } from '../components/ui'
+
 import { graphql, Link } from "gatsby"
 import Image from 'gatsby-image'
-import { AiOutlineRight } from 'react-icons/ai'
+
 import { MdDateRange } from 'react-icons/md'
 import { AiFillTag } from 'react-icons/ai'
+import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai'
 
-import SEO from "../components/SEO"
-import styled from 'styled-components';
-import { Button } from "../components/ui"
+import styled from 'styled-components/macro';
 
 
 const Styledblog = styled.main`
-background-color:${({ theme }) => theme.colors.grey[200]};
+background-color:${({ theme }) => theme.colors.grey[100]};
 display: grid;
 grid-template-columns: 2fr 1fr;
 padding: 3rem;
@@ -38,58 +41,6 @@ flex-flow: column nowrap;
   background-color: #0c0b0b;
 }
   
-`;
-const StyledCard = styled.article`
-background-color:${({ theme }) => theme.colors.white};
-height: fit-content;
-margin: 2rem 2.5rem;
-padding: .5rem;
-display:flex;
-flex-flow: column nowrap;
-overflow:hidden;
-
- .blog-img {
-   z-index: 0;
-   height:25rem;
-   overflow:hidden;
-   .img{
-     transition:${({ theme }) => theme.variables.transition};
-     height:100%;
-     width:100%;
-     background-position:center;
-     background-size:cover;
-     :hover{
-       transform:scale(1.2);
-  
-     }
-   }
-
- }
- .date{
-   width:fit-content;
-    align-self:center;
-   display: flex;
-   justify-content: space-between;
-   background-color:var(--clr-secondary-1);
-  
-   text-align:center;
-   padding: .8rem 2rem;;
-   margin : -2.3rem 0;
-   z-index: 2;
-   border-radius: 4rem;
-   span{
-     text-transform: capitalize;
-     margin:0 1rem;
-   }
- }
-  h3{
-    margin-top:3rem ;
-    margin-bottom:1rem 0;
-  }
- p{
-   color:${({ theme }) => theme.colors.grey[600]};
- }
-
 `;
 
 const StyledSide = styled.section`
@@ -179,7 +130,81 @@ ul{
 `;
 
 
+const StyledCard = styled.article`
+background-color:${({ theme }) => theme.colors.white};
+height: fit-content;
+margin: 2rem 2.5rem;
+padding: .5rem;
+display:flex;
+flex-flow: column nowrap;
+overflow:hidden;
 
+ .blog-img {
+   z-index: 0;
+   height:25rem;
+   overflow:hidden;
+   .img{
+     transition:${({ theme }) => theme.variables.transition};
+     height:100%;
+     width:100%;
+     background-position:center;
+     background-size:cover;
+     :hover{
+       transform:scale(1.2);
+  
+     }
+   }
+
+ }
+ .date{
+   width:fit-content;
+    align-self:center;
+   display: flex;
+   justify-content: space-between;
+   background-color:var(--clr-secondary-1);
+  
+   text-align:center;
+   padding: .8rem 2rem;;
+   margin : -2.3rem 0;
+   z-index: 2;
+   border-radius: 4rem;
+   span{
+     text-transform: capitalize;
+     margin:0 1rem;
+   }
+ }
+  h3{
+    margin-top:3rem ;
+    margin-bottom:1rem 0;
+  }
+ p{
+   color:${({ theme }) => theme.colors.grey[600]};
+ }
+
+`;
+
+const StyledPagination = styled.div`
+    display:flex;
+    align-items:center;
+    justify-content:center;
+li  {  
+    width:fit-content;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 1rem 1.5rem;
+    margin:.3rem;
+    border-radius:50%;
+    cursor: pointer;
+    list-style:none;
+        .active {
+            color: white;
+            background-color: ${({ theme }) => theme.colors.primary[500]};
+        }
+
+}
+ 
+`;
 
 const Blog = ({
   data: {
@@ -200,15 +225,77 @@ const Blog = ({
     setblogItems(newItems);
   };
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+
+  const [pageNumberLimit, setPageNumberLimit] = useState(5);
+  const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);
+  const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = blogItems.slice(indexOfFirstItem, indexOfLastItem);
+
+
+  const pages = [];
+  for (let i = 1; i <= Math.ceil(blogItems.length / itemsPerPage); i++) {
+    pages.push(i);
+  }
+
+  const handleClick = (event) => {
+    setCurrentPage(Number(event.target.id));
+  }
+
+  const handleNextbtn = () => {
+    setCurrentPage(currentPage + 1);
+    if (currentPage + 1 > maxPageNumberLimit) {
+      setMaxPageNumberLimit(maxPageNumberLimit + 1);
+      setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit)
+    }
+  }
+
+  const handlePrevbtn = () => {
+    setCurrentPage(currentPage - 1);
+    if ((currentPage - 1) % pageNumberLimit === 0) {
+      setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
+      setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit);
+    }
+  }
+
+  let pageIncrementBtn = null;
+  if (pages.length > maxPageNumberLimit) {
+    pageIncrementBtn = <li onClick={handleNextbtn} > &hellip;</li>
+  }
+  let pageDecrementBtn = null;
+  if (minPageNumberLimit >= 1) {
+    pageDecrementBtn = <li onClick={handlePrevbtn}>&hellip</li>
+  }
+
+  const handleLoadMore = () => {
+    setItemsPerPage(itemsPerPage + 5)
+  }
+  const renderPageNumbers = pages.map(number => {
+    if (number < maxPageNumberLimit + 1 && number > minPageNumberLimit) {
+      return (<li
+        key={number}
+        id={number}
+        onClick={handleClick}
+        className={currentPage === number ? 'active' : null}
+      >{number}</li>)
+    }
+    else { return null; }
+  })
+
+
   return (
     <Layout>
       <SEO title="Blog" />
       <Styledblog>
         <StyledCenter>
           <Title title='blogs' />
-          {blogItems.map(item => {
+          {currentItems.map(item => {
             const { id, title, image, date, tag, slug, content } = item
-            return (<>
+            return (<section key={id}>
               <hr className='hr' />
               <StyledCard key={id}>
                 {image && (
@@ -226,9 +313,33 @@ const Blog = ({
                   <Button btnWidth="fit-content">read more <AiOutlineRight></AiOutlineRight></Button>
                 </Link>
               </StyledCard>
-            </>)
+            </section>)
           })
           }
+          <StyledPagination >
+            <li>
+              <Button
+                btnWidth="fit-content"
+                onClick={handlePrevbtn}
+                disabled={currentPage === pages[0] ? true : false}
+                className='btn '
+              ><AiOutlineLeft></AiOutlineLeft></Button>
+              {pageDecrementBtn}
+              {renderPageNumbers}
+              {pageIncrementBtn}
+
+              <Button
+                btnWidth="fit-content"
+
+                onClick={handleNextbtn}
+                disabled={currentPage === pages[pages.length - 1] ? true : false}
+
+              >
+                <AiOutlineRight></AiOutlineRight>
+              </Button>
+            </li>
+
+          </StyledPagination>
         </StyledCenter>
         <StyledSide>
           <StyledCategory>
