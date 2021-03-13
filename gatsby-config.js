@@ -4,6 +4,7 @@ module.exports = {
     description: "This is Tibeb-technologies offcial website",
     author: "@Tibeb-technologies",
     image: "logo.png",
+    siteUrl: "https://app.netlify.com/sites/practical-leavitt-6c277c/"
   },
   plugins: [
     "gatsby-plugin-styled-components",
@@ -26,7 +27,7 @@ module.exports = {
       resolve: `gatsby-source-strapi`,
       options: {
         apiURL: `https://tibeb-api.herokuapp.com`,
-        queryLimit: 1000, 
+        queryLimit: 1000,
         contentTypes: [`blogs`],
         singleTypes: [`about`],
       }
