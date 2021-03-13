@@ -4,7 +4,7 @@ module.exports = {
     description: "This is Tibeb-technologies offcial website",
     author: "@Tibeb-technologies",
     image: "logo.png",
-    siteUrl: "https://app.netlify.com/sites/practical-leavitt-6c277c/"
+    siteUrl: "https://app.netlify.com/sites/sharp-wozniak-dea7ad/"
   },
   plugins: [
     "gatsby-plugin-styled-components",
