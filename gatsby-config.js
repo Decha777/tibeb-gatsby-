@@ -26,7 +26,7 @@ module.exports = {
     {
       resolve: `gatsby-source-strapi`,
       options: {
-        apiURL: `http://localhost:1337`,
+        apiURL: `https://tibeb-api.herokuapp.com`,
         // apiURL: process.env.DEPLOY_URL
         //   ? `https://decha77-api.herokuapp.com`
         //   : `http://localhost:1337`,
